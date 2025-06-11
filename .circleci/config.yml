@@ -9,6 +9,6 @@ jobs:
       - checkout
       - matlab/install
       - matlab/run-command:
-          command: matlabroot;
+          command: disp(matlabroot);
       # - matlab/run-tests:
       #     source-folder: code
