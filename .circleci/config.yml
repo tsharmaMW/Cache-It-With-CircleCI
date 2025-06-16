@@ -7,8 +7,25 @@ jobs:
       image: ubuntu-2204:current
     steps:
       - checkout
+      
+      - restore_cache:
+          name: Restore MATLAB Cache
+          keys:
+            - matlab-cache-key-unique
       - matlab/install
+      # Run MATLAB and save matlabroot to a text file
       - matlab/run-command:
-          command: disp(matlabroot);
+          command: "fid = fopen('matlabroot.txt','w'); fprintf(fid, '%s', matlabroot); fclose(fid);"
+      # Read the matlabroot path and export it to $BASH_ENV
+      - run:
+          name: Set MATLABROOT env var
+          command: |
+            export MATLABROOT=$(cat matlabroot.txt)
+            echo "MATLABROOT=$MATLABROOT" >> $BASH_ENV
+      - save_cache:
+          name: Save MATLAB Cache
+          key: matlab-cache-key-unique
+          paths:
+            - $MATLABROOT
       # - matlab/run-tests:
       #     source-folder: code
