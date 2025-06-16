@@ -11,8 +11,23 @@ jobs:
       - restore_cache:
           name: Restore MATLAB Cache
           keys:
-            - matlab-cache-key-unique
+            - matlab-cache-key-1
+
+      # Check if MATLAB was restored from cache
+      - run:
+          name: Use Cached MATLAB if Available
+          command: |
+            if [ -d "matlab-cache-dir" ] && [ "$(ls -A matlab-cache-dir)" ]; then
+              echo "MATLAB cache found."
+              CACHED_ROOT=$(find matlab-cache-dir -maxdepth 1 -mindepth 1 -type d | head -n 1)
+              echo "$CACHED_ROOT" > matlabroot.txt
+            else
+              echo "No cache found. MATLAB will be installed."
+              echo "INSTALL_NEEDED=true" >> $BASH_ENV
+            fi
+      
       - matlab/install
+      
       # Run MATLAB and save matlabroot to a text file
       - matlab/run-command:
           command: "fid = fopen('matlabroot.txt','w'); fprintf(fid, '%s', matlabroot); fclose(fid);"
@@ -24,7 +39,7 @@ jobs:
             cp -r "$MATLABROOT" matlab-cache-dir/
       - save_cache:
           name: Cache MATLAB installation
-          key: matlab-cache-key-unique
+          key: matlab-cache-key-1
           paths:
             - matlab-cache-dir
       # - matlab/run-tests:
