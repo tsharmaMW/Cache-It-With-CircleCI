@@ -31,6 +31,7 @@ jobs:
           release: R2024b
           products: >
             Simulink
+          cache: true
       
       # Run MATLAB and save matlabroot to a text file
       # - matlab/run-command:
