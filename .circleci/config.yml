@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  matlab: mathworks/matlab@dev:795298faca303088814165e6d63646cab1f784e7
+  matlab: mathworks/matlab@dev:5dd3f31399eb891f16fbb3cbad12ac2ac47f664b
 jobs:
   build:
     machine:
