@@ -47,4 +47,10 @@ jobs:
       #     paths:
       #       - matlab-cache-dir 
       - matlab/run-tests:
-          source-folder: code 
+          source-folder: code
+      - matlab/install:
+          release: R2024b
+          products: >
+            Simulink Financial_Toolbox
+      - matlab/run-command:
+          command: version
