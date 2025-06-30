@@ -25,6 +25,7 @@ jobs:
           release: R2024b
           products: >
             Simulink
+          cache: true
       - matlab/run-tests:
           source-folder: code
       - matlab/run-command:
