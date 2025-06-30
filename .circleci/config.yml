@@ -24,7 +24,7 @@ jobs:
       - matlab/install:
           release: R2024b
           products: >
-            Simulink AUTOSAR_Blockset Financial_Toolbox
+            Simulink
           cache: true
       - matlab/run-tests:
           source-folder: code
