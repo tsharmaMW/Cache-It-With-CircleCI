@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   matlab: mathworks/matlab@dev:e2c94d8a02cf130a44e9078b02ead0ed1fa8b09f
+  win: circleci/windows@5
 
 executors:
   linux:
