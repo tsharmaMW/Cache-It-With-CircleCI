@@ -9,8 +9,8 @@ executors:
       image: default
   macos:
     macos:
-      xcode: 15.4.0
-    resource_class: m4pro.medium
+      xcode: 15.3.0
+    resource_class: macos.m1.medium.gen1
   windows:
     win/default
 
