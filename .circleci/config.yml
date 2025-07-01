@@ -10,6 +10,7 @@ executors:
   macos:
     macos:
       xcode: 15.4.0
+    resource_class: m4pro.medium
   windows:
     win/default
 
