@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  matlab: mathworks/matlab@dev:5940d2ef03b9da401566ba6850f25d82933917a2
+  matlab: mathworks/matlab@dev:8b2aa55cbfdb74319878e39ff4b57129b54bef41
   win: circleci/windows@5
 
 executors:
@@ -22,10 +22,10 @@ jobs:
     steps:
       - checkout
       - matlab/install:
-          release: R2024a
+          release: R2023b
           products: >
             Simulink
-          cache: true
+          cache: false
       - matlab/run-tests:
           source-folder: code
       - matlab/run-command:
