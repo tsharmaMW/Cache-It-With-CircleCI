@@ -22,10 +22,10 @@ jobs:
     steps:
       - checkout
       - matlab/install:
-          release: R2024b
+          release: R2024a
           products: >
-            Simulink MATLAB_Compiler
-          cache: true
+            Simulink
+          cache: false
       - matlab/run-tests:
           source-folder: code
       - matlab/run-command:
