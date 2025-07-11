@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  matlab: mathworks/matlab@dev:7f9885aae451db24b651f87e4f81b57deec97fb3
+  matlab: mathworks/matlab@dev:6b31371b4314b94b2a32a55b34450c8fa2c88360
   win: circleci/windows@5
 
 executors:
@@ -24,7 +24,7 @@ jobs:
       - checkout
       - matlab/install:
           products: >
-            Simulink
+            SimBiology
           cache: true
       - matlab/run-tests:
           source-folder: code
