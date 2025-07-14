@@ -29,7 +29,7 @@ jobs:
       - matlab/run-tests:
           source-folder: code
       - matlab/run-command:
-          command: versions
+          command: version
 
 workflows:
   test-caching-cross-platform:
