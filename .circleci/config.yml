@@ -28,10 +28,11 @@ jobs:
             export FOLDER_PATH=folderName/abc
             mkdir -p $FOLDER_PATH
             echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
+            echo "~/matlab_root/$FOLDER_PATH" > ~/cache-path.txt
       - save_cache:
           key: my-folder-cache-v1
           paths:
-            - ${FOLDER_PATH}
+            - $(cat ~/cache-path.txt)
       # - matlab/install:
       #     products: >
       #       SimBiology
