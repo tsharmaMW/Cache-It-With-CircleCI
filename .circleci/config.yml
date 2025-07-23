@@ -28,11 +28,14 @@ jobs:
             export FOLDER_PATH=folderName/abc
             mkdir -p $FOLDER_PATH
             echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
-            echo "~/matlab_root/$FOLDER_PATH" > ~/cache-path.txt
+            circleci-agent step halt
+            parameters:
+              _matlab_path: "$FOLDER_PATH"
+            echo "Hello"
       - save_cache:
           key: my-folder-cache-v2
           paths:
-            - $(cat ~/cache-path.txt)
+            - << parameters._matlab_path >>
       # - matlab/install:
       #     products: >
       #       SimBiology
