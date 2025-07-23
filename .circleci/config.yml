@@ -32,7 +32,7 @@ jobs:
             mkdir -p $FOLDER_PATH
             echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
       - save_cache:
-          key: my-folder-cache-v2
+          key: my-folder-cache-v3
           paths:
             - << parameters.folder >>
       # - matlab/install:
