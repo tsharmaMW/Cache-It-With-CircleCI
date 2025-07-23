@@ -30,7 +30,7 @@ jobs:
             echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
             echo "~/matlab_root/$FOLDER_PATH" > ~/cache-path.txt
       - save_cache:
-          key: my-folder-cache-v1
+          key: my-folder-cache-v2
           paths:
             - $(cat ~/cache-path.txt)
       # - matlab/install:
