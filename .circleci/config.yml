@@ -19,6 +19,9 @@ jobs:
     parameters:
       os:
         type: executor
+      folder:
+        type: env_var_name
+        default: FOLDER_PATH
     executor: << parameters.os >>
     steps:
       - checkout
@@ -28,14 +31,10 @@ jobs:
             export FOLDER_PATH=folderName/abc
             mkdir -p $FOLDER_PATH
             echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
-            circleci-agent step halt
-            parameters:
-              _matlab_path: "$FOLDER_PATH"
-            echo "Hello"
       - save_cache:
           key: my-folder-cache-v2
           paths:
-            - << parameters._matlab_path >>
+            - << parameters.folder >>
       # - matlab/install:
       #     products: >
       #       SimBiology
