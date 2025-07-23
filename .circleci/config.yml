@@ -31,7 +31,7 @@ jobs:
       - save_cache:
           key: my-folder-cache-v1
           paths:
-            - << pipeline.parameters.FOLDER_PATH >>
+            - ${FOLDER_PATH}
       # - matlab/install:
       #     products: >
       #       SimBiology
