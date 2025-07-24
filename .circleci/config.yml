@@ -41,9 +41,6 @@ jobs:
             System_Composer
           cache: true
           release: R2024b
-      - run:
-          name: List files in workspace - Check for install-metadata.txt
-          command: ls -alR
       - matlab/run-tests:
           source-folder: code
       - matlab/run-command:
