@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  matlab: mathworks/matlab@dev:6b31371b4314b94b2a32a55b34450c8fa2c88360
+  matlab: mathworks/matlab@dev:ffb11bfa252134b7333f1200cb141050f4887ea6
   win: circleci/windows@5
 
 executors:
@@ -25,27 +25,28 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
-      - run:
-          name: Create folder
-          command: |
-            export FOLDER_PATH=folderName/abc
-            mkdir -p $FOLDER_PATH
-            echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
-      - save_cache:
-          key: my-folder-cache-v3
-          paths:
-            - << parameters.folder >>
-      # - matlab/install:
-      #     products: >
-      #       SimBiology
-      #     cache: true
       # - run:
-      #     name: List files in workspace - Check for install-metadata.txt
-      #     command: ls -alR
-      # - matlab/run-tests:
-      #     source-folder: code
-      # - matlab/run-command:
-      #     command: version
+      #     name: Create folder
+      #     command: |
+      #       export FOLDER_PATH=folderName/abc
+      #       mkdir -p $FOLDER_PATH
+      #       echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
+      #       echo "Folder path is: $FOLDER_PATH"
+      # - save_cache:
+      #     key: my-folder-cache-v3
+      #     paths:
+      #       - << parameters.folder >>
+      - matlab/install:
+          products: >
+            SimBiology
+          cache: true
+      - run:
+          name: List files in workspace - Check for install-metadata.txt
+          command: ls -alR
+      - matlab/run-tests:
+          source-folder: code
+      - matlab/run-command:
+          command: version
 
 workflows:
   test-caching-cross-platform:
