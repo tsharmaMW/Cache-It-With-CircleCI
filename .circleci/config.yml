@@ -40,6 +40,7 @@ jobs:
           products: >
             SimBiology
           cache: true
+          release: R2024b
       - run:
           name: List files in workspace - Check for install-metadata.txt
           command: ls -alR
