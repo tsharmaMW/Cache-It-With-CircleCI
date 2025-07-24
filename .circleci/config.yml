@@ -38,7 +38,7 @@ jobs:
       #       - << parameters.folder >>
       - matlab/install:
           products: >
-            GPU_Coder
+            System_Composer
           cache: true
           release: R2024b
       - run:
