@@ -25,26 +25,29 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
-      # - run:
-      #     name: Create folder
-      #     command: |
-      #       export FOLDER_PATH=folderName/abc
-      #       mkdir -p $FOLDER_PATH
-      #       echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
-      #       echo "Folder path is: $FOLDER_PATH"
-      # - save_cache:
-      #     key: my-folder-cache-v3
-      #     paths:
-      #       - << parameters.folder >>
-      - matlab/install:
-          products: >
-            System_Composer
-          cache: true
-          release: R2024b
-      - matlab/run-tests:
-          source-folder: code
-      - matlab/run-command:
-          command: version
+      - run:
+          name: Create folder
+          command: |
+            # export FOLDER_PATH=folderName/abc
+            # mkdir -p $FOLDER_PATH
+            # echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
+            # echo "Folder path is: $FOLDER_PATH"
+            mkdir -p "${TMPDIR}/matlab-circleci-orb"
+            echo "R2024b" > "${TMPDIR}/matlab-circleci-orb/install-metadata.txt"
+      - save_cache:
+          key: matlab-cache-{{ checksum "${TMPDIR}/matlab-circleci-orb/install-metadata.txt" }}
+          paths:
+            - ~/matlab_ci/matlab_root
+            # - << parameters.folder >>
+      # - matlab/install:
+      #     products: >
+      #       System_Composer
+      #     cache: true
+      #     release: R2024b
+      # - matlab/run-tests:
+      #     source-folder: code
+      # - matlab/run-command:
+      #     command: version
 
 workflows:
   test-caching-cross-platform:
