@@ -32,10 +32,11 @@ jobs:
             # mkdir -p $FOLDER_PATH
             # echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
             # echo "Folder path is: $FOLDER_PATH"
-            mkdir -p "${TMPDIR}/matlab-circleci-orb"
+            tmpdir=$(mktemp -d 2>/dev/null || mktemp -d -t 'install')
+            mkdir -p "$tmpdir/matlab-circleci-orb"
             echo "R2024b" > "${TMPDIR}/matlab-circleci-orb/install-metadata.txt"
       - save_cache:
-          key: matlab-cache-{{ checksum "${TMPDIR}/matlab-circleci-orb/install-metadata.txt" }}
+          key: matlab-cache-{{ checksum "$tmpdir/matlab-circleci-orb/install-metadata.txt" }}
           paths:
             - ~/matlab_ci/matlab_root
             # - << parameters.folder >>
