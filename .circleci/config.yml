@@ -49,6 +49,12 @@ jobs:
           command: |
             echo "Detected OS: $DETECTED_OS"
           shell: bash
+
+      - run:
+          name: Display detected OS with parameter
+          command: |
+            echo "Detected OS: <<pipeline.parameters.DETECTED_OS>>"
+          shell: bash
       
       - when:
           condition:
