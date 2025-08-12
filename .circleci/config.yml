@@ -61,7 +61,7 @@ jobs:
           steps:
             - save_cache:
                 name: Saving cache for darwin
-                key: - matlab-cache-1-{{ arch }}
+                key: matlab-cache-1-{{ arch }}
                 paths:
                   - ~/matlab-ci/matlab_root/Darwin
       - when:
