@@ -25,7 +25,7 @@ jobs:
       - restore_cache:
           name: restore cache
           keys:
-            - matlab-cache-1-{{ arch }}
+            - matlab-cache-2-{{ arch }}
       - run:
           name: Create folder
           command: |
@@ -48,29 +48,33 @@ jobs:
           name: Display detected OS
           command: |
             echo "Detected OS: $DETECTED_OS"
+          shell: bash
       
       - when:
-          condition: $DETECTED_OS == "Linux"
+          condition:
+            equal: [ $DETECTED_OS == "Linux" ]
           steps:
             - save_cache:
                 name: Saving cache for linux
-                key: matlab-cache-1-{{ arch }}
+                key: matlab-cache-2-{{ arch }}
                 paths:
                   - ~/matlab-ci/matlab_root/Linux
       - when:
-          condition: $DETECTED_OS == "Darwin"
+          condition:
+            equal: [ $DETECTED_OS == "Darwin" ]
           steps:
             - save_cache:
                 name: Saving cache for darwin
-                key: matlab-cache-1-{{ arch }}
+                key: matlab-cache-2-{{ arch }}
                 paths:
                   - ~/matlab-ci/matlab_root/Darwin
       - when:
-          condition: $DETECTED_OS == "Windows"
+          condition:
+            equal: [ $DETECTED_OS == "Windows" ]
           steps:
             - save_cache:
                 name: Saving cache for windows
-                key: matlab-cache-1-{{ arch }}
+                key: matlab-cache-2-{{ arch }}
                 paths:
                   - ~/matlab-ci/matlab_root/Windows
       # - matlab/install:
