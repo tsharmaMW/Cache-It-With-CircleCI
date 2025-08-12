@@ -32,6 +32,7 @@ jobs:
             os=$(uname)
             if [[ "$os" = CYGWIN* || "$os" = MINGW* || "$os" = MSYS* ]]; then
               os="Windows"
+            fi
             echo "export DETECTED_OS=$os" >> $BASH_ENV
             echo "Creating MATLAB directory for $os platform"
             mkdir -p ~/matlab-ci/matlab_root/$os
