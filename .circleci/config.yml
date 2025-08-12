@@ -22,10 +22,15 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
+      - restore_cache:
+          name: restore cache
+          keys:
+            - matlab-cache-1
       - run:
           name: Create folder
           command: |
             os=$(uname)
+            echo "export DETECTED_OS=$os" >> $BASH_ENV
             echo "Creating MATLAB directory for $os platform"
             mkdir -p ~/matlab-ci/matlab_root/$os
           shell: bash
@@ -36,6 +41,19 @@ jobs:
             - ~/matlab_ci/matlab_root/Darwin
             - ~/matlab_ci/matlab_root/Windows
             # - << parameters.folder >>
+      - run:
+          name: Display detected OS
+          command: |
+            echo "Detected OS: $DETECTED_OS"
+      
+      - when:
+          condition: $DETECTED_OS == "Linux"
+          steps:
+            - save_cache:
+                name: Saving cache for linux
+                key: matlab-cache-2
+                paths:
+                  - ~/matlab-ci/matlab_root/Linux
       # - matlab/install:
       #     products: >
       #       System_Composer
