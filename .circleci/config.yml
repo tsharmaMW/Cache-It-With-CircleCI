@@ -25,22 +25,24 @@ jobs:
       - restore_cache:
           name: restore cache
           keys:
-            - matlab-cache-1
+            - matlab-cache-1-{{ arch }}
       - run:
           name: Create folder
           command: |
             os=$(uname)
+            if [[ "$os" = CYGWIN* || "$os" = MINGW* || "$os" = MSYS* ]]; then
+              os="Windows"
             echo "export DETECTED_OS=$os" >> $BASH_ENV
             echo "Creating MATLAB directory for $os platform"
             mkdir -p ~/matlab-ci/matlab_root/$os
           shell: bash
-      - save_cache:
-          key: matlab-cache-1
-          paths:
-            - ~/matlab_ci/matlab_root/Linux
-            - ~/matlab_ci/matlab_root/Darwin
-            - ~/matlab_ci/matlab_root/Windows
-            # - << parameters.folder >>
+      # - save_cache:
+      #     key: matlab-cache-1
+      #     paths:
+      #       - ~/matlab_ci/matlab_root/Linux
+      #       - ~/matlab_ci/matlab_root/Darwin
+      #       - ~/matlab_ci/matlab_root/Windows
+      #       # - << parameters.folder >>
       - run:
           name: Display detected OS
           command: |
@@ -51,9 +53,25 @@ jobs:
           steps:
             - save_cache:
                 name: Saving cache for linux
-                key: matlab-cache-2
+                key: - matlab-cache-1-{{ arch }}
                 paths:
                   - ~/matlab-ci/matlab_root/Linux
+      - when:
+          condition: $DETECTED_OS == "Darwin"
+          steps:
+            - save_cache:
+                name: Saving cache for darwin
+                key: - matlab-cache-1-{{ arch }}
+                paths:
+                  - ~/matlab-ci/matlab_root/Darwin
+      - when:
+          condition: $DETECTED_OS == "Windows"
+          steps:
+            - save_cache:
+                name: Saving cache for windows
+                key: - matlab-cache-1-{{ arch }}
+                paths:
+                  - ~/matlab-ci/matlab_root/Windows
       # - matlab/install:
       #     products: >
       #       System_Composer
