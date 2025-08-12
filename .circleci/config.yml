@@ -19,26 +19,22 @@ jobs:
     parameters:
       os:
         type: executor
-      folder:
-        type: env_var_name
-        default: FOLDER_PATH
     executor: << parameters.os >>
     steps:
       - checkout
       - run:
           name: Create folder
           command: |
-            # export FOLDER_PATH=folderName/abc
-            # mkdir -p $FOLDER_PATH
-            # echo "export FOLDER_PATH=$FOLDER_PATH" >> $BASH_ENV
-            # echo "Folder path is: $FOLDER_PATH"
-            tmpdir=$(mktemp -d 2>/dev/null || mktemp -d -t 'install')
-            mkdir -p "$tmpdir/matlab-circleci-orb"
-            echo "R2024b" > "${TMPDIR}/matlab-circleci-orb/install-metadata.txt"
+            os=$(uname)
+            echo "Creating MATLAB directory for $os platform"
+            mkdir -p ~/matlab-ci/matlab_root/$os
+          shell: bash
       - save_cache:
-          key: matlab-cache-{{ checksum "$tmpdir/matlab-circleci-orb/install-metadata.txt" }}
+          key: matlab-cache-1
           paths:
-            - ~/matlab_ci/matlab_root
+            - ~/matlab_ci/matlab_root/Linux
+            - ~/matlab_ci/matlab_root/Darwin
+            - ~/matlab_ci/matlab_root/Windows
             # - << parameters.folder >>
       # - matlab/install:
       #     products: >
