@@ -53,7 +53,8 @@ jobs:
       - run:
           name: Display detected OS with parameter
           command: |
-            echo "Detected OS: <<pipeline.parameters.DETECTED_OS>>"
+            echo "Detected arch {{ arch }}"
+            echo {{ arch }}
           shell: bash
       
       - when:
