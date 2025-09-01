@@ -27,7 +27,7 @@ jobs:
           command: |
             mkdir -p "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             releaseVal="someValueOfRelease"
-            echo "MY_RELEASE_VERSION=${releaseVal}" >> "~${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            echo "MY_RELEASE_VERSION=${releaseVal}" >> "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             echo "MY_RELEASE_VERSION2=${releaseVal}" >> "scripts/release.sh"
 
       - run:
