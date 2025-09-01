@@ -27,7 +27,7 @@ jobs:
           command: |
             mkdir -p "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             releaseVal="someValueOfRelease"
-            echo "MY_RELEASE_VERSION=${releaseVal}" >> "${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            echo "MY_RELEASE_VERSION=${releaseVal}" >> "~${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             echo "MY_RELEASE_VERSION2=${releaseVal}" >> "scripts/release.sh"
 
       - run:
@@ -35,7 +35,7 @@ jobs:
           # environment:
           #   MY_SCRIPT: <<include(scripts/release.sh)>>
           command: |
-            echo "Reading from ${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            echo "Reading from $~/{CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             cat "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             # eval "$MY_SCRIPT"
             ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh
