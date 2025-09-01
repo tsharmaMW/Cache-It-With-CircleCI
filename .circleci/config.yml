@@ -28,16 +28,18 @@ jobs:
             mkdir -p "~/${CIRCLE_WORKFLOW_JOB_ID}"
             releaseVal="someValueOfRelease"
             echo "MY_RELEASE_VERSION=${releaseVal}" >> "${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            echo "MY_RELEASE_VERSION2=${releaseVal}" >> "scripts/release.sh"
 
       - run:
           name: Read and print environment variable from release.sh
           environment:
-            MY_SCRIPT: <<include(${CIRCLE_WORKFLOW_JOB_ID}/release.sh)>>
+            MY_SCRIPT: <<include(scripts/release.sh)>>
           command: |
             echo "Reading from ${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             cat "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             eval "$MY_SCRIPT"
             echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
+            echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION2}"
 
       - restore_cache:
           name: restore cache
