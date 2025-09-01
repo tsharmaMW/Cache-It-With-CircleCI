@@ -22,6 +22,23 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
+      - run:
+          name: Write environment variable to release.sh
+          command: |
+            mkdir -p "~/${CIRCLE_WORKFLOW_JOB_ID}"
+            releaseVal="someValueOfRelease"
+            echo "MY_RELEASE_VERSION=${releaseVal}" >> "${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+
+      - run:
+          name: Read and print environment variable from release.sh
+          environment:
+            MY_SCRIPT: <<include(${CIRCLE_WORKFLOW_JOB_ID}/release.sh)>>
+          command: |
+            echo "Reading from ${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            cat "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            eval "$MY_SCRIPT"
+            echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
+
       - restore_cache:
           name: restore cache
           keys:
