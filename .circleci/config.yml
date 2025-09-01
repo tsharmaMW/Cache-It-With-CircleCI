@@ -41,68 +41,68 @@ jobs:
             echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
             echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION2}"
 
-      - restore_cache:
-          name: restore cache
-          keys:
-            - matlab-cache-3-{{ arch }}
-      - run:
-          name: Create folder
-          command: |
-            os=$(uname)
-            if [[ "$os" = CYGWIN* || "$os" = MINGW* || "$os" = MSYS* ]]; then
-              os="Windows"
-            fi
-            echo "export DETECTED_OS=$os" >> $BASH_ENV
-            echo "Creating MATLAB directory for $os platform"
-            mkdir -p ~/matlab-ci/matlab_root/$os
-          shell: bash
-      # - save_cache:
-      #     key: matlab-cache-1
-      #     paths:
-      #       - ~/matlab_ci/matlab_root/Linux
-      #       - ~/matlab_ci/matlab_root/Darwin
-      #       - ~/matlab_ci/matlab_root/Windows
-      #       # - << parameters.folder >>
-      - run:
-          name: Display detected OS
-          command: |
-            echo "Detected OS: $DETECTED_OS"
-          shell: bash
+      # - restore_cache:
+      #     name: restore cache
+      #     keys:
+      #       - matlab-cache-3-{{ arch }}
+      # - run:
+      #     name: Create folder
+      #     command: |
+      #       os=$(uname)
+      #       if [[ "$os" = CYGWIN* || "$os" = MINGW* || "$os" = MSYS* ]]; then
+      #         os="Windows"
+      #       fi
+      #       echo "export DETECTED_OS=$os" >> $BASH_ENV
+      #       echo "Creating MATLAB directory for $os platform"
+      #       mkdir -p ~/matlab-ci/matlab_root/$os
+      #     shell: bash
+      # # - save_cache:
+      # #     key: matlab-cache-1
+      # #     paths:
+      # #       - ~/matlab_ci/matlab_root/Linux
+      # #       - ~/matlab_ci/matlab_root/Darwin
+      # #       - ~/matlab_ci/matlab_root/Windows
+      # #       # - << parameters.folder >>
+      # - run:
+      #     name: Display detected OS
+      #     command: |
+      #       echo "Detected OS: $DETECTED_OS"
+      #     shell: bash
 
-      - run:
-          name: Display detected OS with parameter
-          command: |
-            echo "Detected arch {{ arch }}"
-            echo {{ arch }}
-          shell: bash
+      # - run:
+      #     name: Display detected OS with parameter
+      #     command: |
+      #       echo "Detected arch {{ arch }}"
+      #       echo {{ arch }}
+      #     shell: bash
       
-      - when:
-          condition:
-            equal: [ $DETECTED_OS, "Linux" ]
-          steps:
-            - save_cache:
-                name: Saving cache for linux
-                key: matlab-cache-3-{{ arch }}
-                paths:
-                  - ~/matlab-ci/matlab_root/Linux
-      - when:
-          condition:
-            equal: [ $DETECTED_OS, "Darwin" ]
-          steps:
-            - save_cache:
-                name: Saving cache for darwin
-                key: matlab-cache-3-{{ arch }}
-                paths:
-                  - ~/matlab-ci/matlab_root/Darwin
-      - when:
-          condition:
-            equal: [ $DETECTED_OS, "Windows" ]
-          steps:
-            - save_cache:
-                name: Saving cache for windows
-                key: matlab-cache-3-{{ arch }}
-                paths:
-                  - ~/matlab-ci/matlab_root/Windows
+      # - when:
+      #     condition:
+      #       equal: [ $DETECTED_OS, "Linux" ]
+      #     steps:
+      #       - save_cache:
+      #           name: Saving cache for linux
+      #           key: matlab-cache-3-{{ arch }}
+      #           paths:
+      #             - ~/matlab-ci/matlab_root/Linux
+      # - when:
+      #     condition:
+      #       equal: [ $DETECTED_OS, "Darwin" ]
+      #     steps:
+      #       - save_cache:
+      #           name: Saving cache for darwin
+      #           key: matlab-cache-3-{{ arch }}
+      #           paths:
+      #             - ~/matlab-ci/matlab_root/Darwin
+      # - when:
+      #     condition:
+      #       equal: [ $DETECTED_OS, "Windows" ]
+      #     steps:
+      #       - save_cache:
+      #           name: Saving cache for windows
+      #           key: matlab-cache-3-{{ arch }}
+      #           paths:
+      #             - ~/matlab-ci/matlab_root/Windows
       # - matlab/install:
       #     products: >
       #       System_Composer
