@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Write environment variable to release.sh
           command: |
-            mkdir -p "~/${CIRCLE_WORKFLOW_JOB_ID}"
+            mkdir -p "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             releaseVal="someValueOfRelease"
             echo "MY_RELEASE_VERSION=${releaseVal}" >> "${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             echo "MY_RELEASE_VERSION2=${releaseVal}" >> "scripts/release.sh"
