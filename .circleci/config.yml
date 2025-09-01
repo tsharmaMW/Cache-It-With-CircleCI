@@ -38,7 +38,7 @@ jobs:
             echo "Reading from $~/{CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             cat "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             # eval "$MY_SCRIPT"
-            ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh
+            # ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh
             echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
             echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION2}"
 
