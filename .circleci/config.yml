@@ -25,23 +25,29 @@ jobs:
       - run:
           name: Write environment variable to release.sh
           command: |
-            mkdir -p "~/${CIRCLE_WORKFLOW_JOB_ID}"
+            mkdir -p ~/"${CIRCLE_WORKFLOW_JOB_ID}"
             releaseVal="someValueOfRelease"
-            echo "MY_RELEASE_VERSION=${releaseVal}" >> "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            echo "MY_RELEASE_VERSION2=${releaseVal}" >> "scripts/release.sh"
+            releaseVal2="someValueOfRelease2"
+            echo "export MY_RELEASE_VERSION=${releaseVal}" >> ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            echo "export MY_RELEASE_VERSION2=${releaseVal}" >> scripts/release.sh
 
       - run:
           name: Read and print environment variable from release.sh
           # environment:
           #   MY_SCRIPT: <<include(scripts/release.sh)>>
           command: |
-            echo "Reading from $~/{CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            cat "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            # eval "$MY_SCRIPT"
-            # ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh
+            echo "Reading from ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            cat ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            
+            # Source the file to load the environment variables
+            source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
-            echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION2}"
-
+            
+            echo "Reading from scripts/release.sh"
+            cat scripts/release.sh
+            source scripts/release.sh
+            echo "Retrieved MY_RELEASE_VERSION2=${MY_RELEASE_VERSION2}"
+            
       # - restore_cache:
       #     name: restore cache
       #     keys:
