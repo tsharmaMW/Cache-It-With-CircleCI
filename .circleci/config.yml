@@ -32,12 +32,13 @@ jobs:
 
       - run:
           name: Read and print environment variable from release.sh
-          environment:
-            MY_SCRIPT: <<include(scripts/release.sh)>>
+          # environment:
+          #   MY_SCRIPT: <<include(scripts/release.sh)>>
           command: |
             echo "Reading from ${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             cat "~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            eval "$MY_SCRIPT"
+            # eval "$MY_SCRIPT"
+            ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh
             echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
             echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION2}"
 
