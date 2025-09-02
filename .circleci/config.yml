@@ -33,7 +33,7 @@ jobs:
       - restore_cache:
           name: Restore cache
           keys:
-            - some-key-{{ checksum ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh}}
+            - some-key-{{ checksum "~/${echo $CIRCLE_WORKFLOW_JOB_ID}/release.sh" }}
 
       - run:
           name: Read and print environment variable from release.sh
