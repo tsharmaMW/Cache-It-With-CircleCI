@@ -29,7 +29,11 @@ jobs:
             releaseVal="someValueOfRelease"
             releaseVal2="someValueOfRelease2"
             echo "export MY_RELEASE_VERSION=${releaseVal}" >> ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            echo "export MY_RELEASE_VERSION2=${releaseVal}" >> scripts/release.sh
+            echo "export MY_RELEASE_VERSION2=${releaseVal2}" >> scripts/release.sh
+      - restore_cache:
+          name: Restore cache
+          keys:
+            - some-key-{{ checksum ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh}}
 
       - run:
           name: Read and print environment variable from release.sh
