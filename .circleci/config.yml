@@ -40,7 +40,8 @@ jobs:
       - restore_cache:
           name: Restore cache
           keys:
-            - some-key-{{ .Environment.myEnvironmetnVar }}-{{ .Environment.releaseVal }}-{{ $myEnvironmetnVar }}
+            - some-key-{{ .Environment.myEnvironmetnVar }}-{{ .Environment.releaseVal }}
+            # -{{ $myEnvironmetnVar }}
             # -{{ checksum "~/{$CIRCLE_WORKFLOW_JOB_ID}/release.sh" }}
 
       - run:
