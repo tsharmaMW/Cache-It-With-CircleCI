@@ -42,7 +42,7 @@ jobs:
           environment:
             envVar: envVal
           keys:
-            - some-key-{{ .Environment.myEnvironmetnVar }}-{{ .Environment.releaseVal }}-{{ $envVar }}
+            - some-key-{{ .Environment.myEnvironmetnVar }}-{{ .Environment.releaseVal }}-{{ envVar }}
             # -{{ $myEnvironmetnVar }}
             # -{{ checksum "~/{$CIRCLE_WORKFLOW_JOB_ID}/release.sh" }}
 
