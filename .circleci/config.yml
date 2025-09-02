@@ -33,10 +33,14 @@ jobs:
 
             source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
+
+            echo "export myEnvironmetnVar=SomeValueForMyEnvVar" >> "$BASH_ENV"
+            source "$BASH_ENV"
+            echo $myEnvironmetnVar
       - restore_cache:
           name: Restore cache
           keys:
-            - some-key-{{ .Environment.releaseVal }}-{$MY_RELEASE_VERSION}
+            - some-key-{{ .Environment.myEnvironmetnVar }}-{{ .Environment.releaseVal }}-{{ $MY_RELEASE_VERSION }}
             # -{{ checksum "~/{$CIRCLE_WORKFLOW_JOB_ID}/release.sh" }}
 
       - run:
