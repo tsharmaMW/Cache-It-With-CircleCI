@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  matlab: mathworks/matlab@dev:ffb11bfa252134b7333f1200cb141050f4887ea6
+  matlab: mathworks/matlab@dev:85adb5a21ceef99efdf9871c0573734b1a6225ca
   win: circleci/windows@5
 
 executors:
@@ -22,46 +22,55 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
-      - run:
-          name: Write environment variable to release.sh
-          command: |
-            mkdir -p ~/"${CIRCLE_WORKFLOW_JOB_ID}"
-            releaseVal="someValueOfRelease"
-            releaseVal2="someValueOfRelease2"
-            echo "export MY_RELEASE_VERSION=${releaseVal}" >> ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            echo "export MY_RELEASE_VERSION2=${releaseVal2}" >> scripts/release.sh
+      - matlab/install:
+          products: >
+            Simulink
+          cache: true
+          release: R2024b
+      - matlab/run-tests:
+          source-folder: code
+      - matlab/run-command:
+          command: version
+      # - run:
+      #     name: Write environment variable to release.sh
+      #     command: |
+      #       mkdir -p ~/"${CIRCLE_WORKFLOW_JOB_ID}"
+      #       releaseVal="someValueOfRelease"
+      #       releaseVal2="someValueOfRelease2"
+      #       echo "export MY_RELEASE_VERSION=${releaseVal}" >> ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+      #       echo "export MY_RELEASE_VERSION2=${releaseVal2}" >> scripts/release.sh
 
-            source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
+      #       source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+      #       echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
 
-            echo "export myEnvironmetnVar=SomeValueForMyEnvVar" >> "$BASH_ENV"
-            source "$BASH_ENV"
-            echo $myEnvironmetnVar
-      - restore_cache:
-          name: Restore cache
-          environment:
-            envVar: envVal
-          keys:
-            - some-key-{{ .Environment.myEnvironmetnVar }}-{{ .Environment.releaseVal }}-{{ envVar }}
-            # -{{ $myEnvironmetnVar }}
-            # -{{ checksum "~/{$CIRCLE_WORKFLOW_JOB_ID}/release.sh" }}
+      #       echo "export myEnvironmetnVar=SomeValueForMyEnvVar" >> "$BASH_ENV"
+      #       source "$BASH_ENV"
+      #       echo $myEnvironmetnVar
+      # - restore_cache:
+      #     name: Restore cache
+      #     environment:
+      #       envVar: envVal
+      #     keys:
+      #       - some-key-{{ .Environment.myEnvironmetnVar }}-{{ .Environment.releaseVal }}-{{ envVar }}
+      #       # -{{ $myEnvironmetnVar }}
+      #       # -{{ checksum "~/{$CIRCLE_WORKFLOW_JOB_ID}/release.sh" }}
 
-      - run:
-          name: Read and print environment variable from release.sh
-          # environment:
-          #   MY_SCRIPT: <<include(scripts/release.sh)>>
-          command: |
-            echo "Reading from ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            cat ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+      # - run:
+      #     name: Read and print environment variable from release.sh
+      #     # environment:
+      #     #   MY_SCRIPT: <<include(scripts/release.sh)>>
+      #     command: |
+      #       echo "Reading from ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+      #       cat ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
             
-            # Source the file to load the environment variables
-            source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
+      #       # Source the file to load the environment variables
+      #       source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+      #       echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
             
-            echo "Reading from scripts/release.sh"
-            cat scripts/release.sh
-            source scripts/release.sh
-            echo "Retrieved MY_RELEASE_VERSION2=${MY_RELEASE_VERSION2}"
+      #       echo "Reading from scripts/release.sh"
+      #       cat scripts/release.sh
+      #       source scripts/release.sh
+      #       echo "Retrieved MY_RELEASE_VERSION2=${MY_RELEASE_VERSION2}"
             
       # - restore_cache:
       #     name: restore cache
