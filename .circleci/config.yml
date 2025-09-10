@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  matlab: mathworks/matlab@dev:85adb5a21ceef99efdf9871c0573734b1a6225ca
+  matlab: mathworks/matlab@dev:6b37e4872c89afa846107eeba9de492861d9caca
   win: circleci/windows@5
 
 executors:
@@ -27,123 +27,8 @@ jobs:
             Simulink
           cache: true
           release: R2024b
-      - matlab/run-tests:
-          source-folder: code
       - matlab/run-command:
           command: version
-      # - run:
-      #     name: Write environment variable to release.sh
-      #     command: |
-      #       mkdir -p ~/"${CIRCLE_WORKFLOW_JOB_ID}"
-      #       releaseVal="someValueOfRelease"
-      #       releaseVal2="someValueOfRelease2"
-      #       echo "export MY_RELEASE_VERSION=${releaseVal}" >> ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-      #       echo "export MY_RELEASE_VERSION2=${releaseVal2}" >> scripts/release.sh
-
-      #       source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-      #       echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
-
-      #       echo "export myEnvironmetnVar=SomeValueForMyEnvVar" >> "$BASH_ENV"
-      #       source "$BASH_ENV"
-      #       echo $myEnvironmetnVar
-      # - restore_cache:
-      #     name: Restore cache
-      #     environment:
-      #       envVar: envVal
-      #     keys:
-      #       - some-key-{{ .Environment.myEnvironmetnVar }}-{{ .Environment.releaseVal }}-{{ envVar }}
-      #       # -{{ $myEnvironmetnVar }}
-      #       # -{{ checksum "~/{$CIRCLE_WORKFLOW_JOB_ID}/release.sh" }}
-
-      # - run:
-      #     name: Read and print environment variable from release.sh
-      #     # environment:
-      #     #   MY_SCRIPT: <<include(scripts/release.sh)>>
-      #     command: |
-      #       echo "Reading from ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-      #       cat ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-            
-      #       # Source the file to load the environment variables
-      #       source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
-      #       echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
-            
-      #       echo "Reading from scripts/release.sh"
-      #       cat scripts/release.sh
-      #       source scripts/release.sh
-      #       echo "Retrieved MY_RELEASE_VERSION2=${MY_RELEASE_VERSION2}"
-            
-      # - restore_cache:
-      #     name: restore cache
-      #     keys:
-      #       - matlab-cache-3-{{ arch }}
-      # - run:
-      #     name: Create folder
-      #     command: |
-      #       os=$(uname)
-      #       if [[ "$os" = CYGWIN* || "$os" = MINGW* || "$os" = MSYS* ]]; then
-      #         os="Windows"
-      #       fi
-      #       echo "export DETECTED_OS=$os" >> $BASH_ENV
-      #       echo "Creating MATLAB directory for $os platform"
-      #       mkdir -p ~/matlab-ci/matlab_root/$os
-      #     shell: bash
-      # # - save_cache:
-      # #     key: matlab-cache-1
-      # #     paths:
-      # #       - ~/matlab_ci/matlab_root/Linux
-      # #       - ~/matlab_ci/matlab_root/Darwin
-      # #       - ~/matlab_ci/matlab_root/Windows
-      # #       # - << parameters.folder >>
-      # - run:
-      #     name: Display detected OS
-      #     command: |
-      #       echo "Detected OS: $DETECTED_OS"
-      #     shell: bash
-
-      # - run:
-      #     name: Display detected OS with parameter
-      #     command: |
-      #       echo "Detected arch {{ arch }}"
-      #       echo {{ arch }}
-      #     shell: bash
-      
-      # - when:
-      #     condition:
-      #       equal: [ $DETECTED_OS, "Linux" ]
-      #     steps:
-      #       - save_cache:
-      #           name: Saving cache for linux
-      #           key: matlab-cache-3-{{ arch }}
-      #           paths:
-      #             - ~/matlab-ci/matlab_root/Linux
-      # - when:
-      #     condition:
-      #       equal: [ $DETECTED_OS, "Darwin" ]
-      #     steps:
-      #       - save_cache:
-      #           name: Saving cache for darwin
-      #           key: matlab-cache-3-{{ arch }}
-      #           paths:
-      #             - ~/matlab-ci/matlab_root/Darwin
-      # - when:
-      #     condition:
-      #       equal: [ $DETECTED_OS, "Windows" ]
-      #     steps:
-      #       - save_cache:
-      #           name: Saving cache for windows
-      #           key: matlab-cache-3-{{ arch }}
-      #           paths:
-      #             - ~/matlab-ci/matlab_root/Windows
-      # - matlab/install:
-      #     products: >
-      #       System_Composer
-      #     cache: true
-      #     release: R2024b
-      # - matlab/run-tests:
-      #     source-folder: code
-      # - matlab/run-command:
-      #     command: version 
-
 workflows:
   test-caching-cross-platform:
     jobs:
@@ -151,3 +36,156 @@ workflows:
           matrix:
             parameters:
               os: [linux, macos, windows]
+# version: 2.1
+# orbs:
+#   matlab: mathworks/matlab@dev:85adb5a21ceef99efdf9871c0573734b1a6225ca
+#   win: circleci/windows@5
+
+# executors:
+#   linux:
+#     machine:
+#       image: default
+#   macos:
+#     macos:
+#       xcode: 15.3.0
+#     resource_class: macos.m1.medium.gen1
+#   windows:
+#     win/default
+
+# jobs:
+#   build:
+#     parameters:
+#       os:
+#         type: executor
+#     executor: << parameters.os >>
+#     steps:
+#       - checkout
+#       - matlab/install:
+#           products: >
+#             Simulink
+#           cache: true
+#           release: R2024b
+#       - matlab/run-tests:
+#           source-folder: code
+#       - matlab/run-command:
+#           command: version
+#       # - run:
+#       #     name: Write environment variable to release.sh
+#       #     command: |
+#       #       mkdir -p ~/"${CIRCLE_WORKFLOW_JOB_ID}"
+#       #       releaseVal="someValueOfRelease"
+#       #       releaseVal2="someValueOfRelease2"
+#       #       echo "export MY_RELEASE_VERSION=${releaseVal}" >> ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+#       #       echo "export MY_RELEASE_VERSION2=${releaseVal2}" >> scripts/release.sh
+
+#       #       source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+#       #       echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
+
+#       #       echo "export myEnvironmetnVar=SomeValueForMyEnvVar" >> "$BASH_ENV"
+#       #       source "$BASH_ENV"
+#       #       echo $myEnvironmetnVar
+#       # - restore_cache:
+#       #     name: Restore cache
+#       #     environment:
+#       #       envVar: envVal
+#       #     keys:
+#       #       - some-key-{{ .Environment.myEnvironmetnVar }}-{{ .Environment.releaseVal }}-{{ envVar }}
+#       #       # -{{ $myEnvironmetnVar }}
+#       #       # -{{ checksum "~/{$CIRCLE_WORKFLOW_JOB_ID}/release.sh" }}
+
+#       # - run:
+#       #     name: Read and print environment variable from release.sh
+#       #     # environment:
+#       #     #   MY_SCRIPT: <<include(scripts/release.sh)>>
+#       #     command: |
+#       #       echo "Reading from ~/${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+#       #       cat ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+            
+#       #       # Source the file to load the environment variables
+#       #       source ~/"${CIRCLE_WORKFLOW_JOB_ID}/release.sh"
+#       #       echo "Retrieved MY_RELEASE_VERSION=${MY_RELEASE_VERSION}"
+            
+#       #       echo "Reading from scripts/release.sh"
+#       #       cat scripts/release.sh
+#       #       source scripts/release.sh
+#       #       echo "Retrieved MY_RELEASE_VERSION2=${MY_RELEASE_VERSION2}"
+            
+#       # - restore_cache:
+#       #     name: restore cache
+#       #     keys:
+#       #       - matlab-cache-3-{{ arch }}
+#       # - run:
+#       #     name: Create folder
+#       #     command: |
+#       #       os=$(uname)
+#       #       if [[ "$os" = CYGWIN* || "$os" = MINGW* || "$os" = MSYS* ]]; then
+#       #         os="Windows"
+#       #       fi
+#       #       echo "export DETECTED_OS=$os" >> $BASH_ENV
+#       #       echo "Creating MATLAB directory for $os platform"
+#       #       mkdir -p ~/matlab-ci/matlab_root/$os
+#       #     shell: bash
+#       # # - save_cache:
+#       # #     key: matlab-cache-1
+#       # #     paths:
+#       # #       - ~/matlab_ci/matlab_root/Linux
+#       # #       - ~/matlab_ci/matlab_root/Darwin
+#       # #       - ~/matlab_ci/matlab_root/Windows
+#       # #       # - << parameters.folder >>
+#       # - run:
+#       #     name: Display detected OS
+#       #     command: |
+#       #       echo "Detected OS: $DETECTED_OS"
+#       #     shell: bash
+
+#       # - run:
+#       #     name: Display detected OS with parameter
+#       #     command: |
+#       #       echo "Detected arch {{ arch }}"
+#       #       echo {{ arch }}
+#       #     shell: bash
+      
+#       # - when:
+#       #     condition:
+#       #       equal: [ $DETECTED_OS, "Linux" ]
+#       #     steps:
+#       #       - save_cache:
+#       #           name: Saving cache for linux
+#       #           key: matlab-cache-3-{{ arch }}
+#       #           paths:
+#       #             - ~/matlab-ci/matlab_root/Linux
+#       # - when:
+#       #     condition:
+#       #       equal: [ $DETECTED_OS, "Darwin" ]
+#       #     steps:
+#       #       - save_cache:
+#       #           name: Saving cache for darwin
+#       #           key: matlab-cache-3-{{ arch }}
+#       #           paths:
+#       #             - ~/matlab-ci/matlab_root/Darwin
+#       # - when:
+#       #     condition:
+#       #       equal: [ $DETECTED_OS, "Windows" ]
+#       #     steps:
+#       #       - save_cache:
+#       #           name: Saving cache for windows
+#       #           key: matlab-cache-3-{{ arch }}
+#       #           paths:
+#       #             - ~/matlab-ci/matlab_root/Windows
+#       # - matlab/install:
+#       #     products: >
+#       #       System_Composer
+#       #     cache: true
+#       #     release: R2024b
+#       # - matlab/run-tests:
+#       #     source-folder: code
+#       # - matlab/run-command:
+#       #     command: version 
+
+# workflows:
+#   test-caching-cross-platform:
+#     jobs:
+#       - build:
+#           matrix:
+#             parameters:
+#               os: [linux, macos, windows]
