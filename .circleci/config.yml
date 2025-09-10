@@ -26,7 +26,7 @@ jobs:
           products: >
             Simulink
           cache: true
-          release: R2024bU4
+          release: R2024bU2
       - matlab/run-command:
           command: version
 workflows:
